@@ -59,19 +59,9 @@ jobs:
           working_directory: terraform/
           arguments: -json build.tfplan
           output_file: build_terraform.json
-      - name: LS
-        uses: ./action/
-        with:
-          operation: ls
-          command: -ll terraform
-      - name: LS
-        uses: ./action/
-        with:
-          operation: ls
-          command: -ll opa
       - name: Opa Check
         uses: ./action/
         with:
           operation: opa
           command: eval
-          arguments: --format raw --data ./opa/ --input terraform/build_terraform.json "data.terraform.deny"
+          arguments: --format raw --data ./opa/ --input terraform/build_terraform.json "data.terraform"
