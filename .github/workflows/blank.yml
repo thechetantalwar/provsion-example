@@ -58,6 +58,13 @@ jobs:
           command: show
           working_directory: terraform/
           arguments: -json build.tfplan
+      - name: Terraform Show
+        uses: ./action/
+        with:
+          operation: terraform
+          command: show
+          working_directory: terraform/
+          arguments: -json build.tfplan
           output_file: build_terraform.json
       - name: Opa Check
         uses: ./action/
