@@ -62,6 +62,6 @@ jobs:
       - name: Opa Check
         uses: ./action/
         with:
-          operation: opa
+          operation: ./opa
           command: eval
           arguments: -d opa/ -i terraform/build_terraform.json "data.terraform"
