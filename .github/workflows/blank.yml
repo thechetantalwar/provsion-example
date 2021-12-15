@@ -58,7 +58,7 @@ jobs:
           command: show
           working_directory: terraform/
           arguments: -json build.tfplan
-          output_file: ../build_terraform.json
+          output_file: opacheck/build_terraform.json
       - name: cat
         uses: ./action/
         with:
@@ -73,4 +73,5 @@ jobs:
         with:
           operation: opa
           command: eval
-          arguments: -d opacheck/common.rego -d opacheck/ec2.rego -i build_terraform.json "data.terraform"
+          arguments: -d . -i build_terraform.json "data.terraform"
+          working_directory: opacheck/
