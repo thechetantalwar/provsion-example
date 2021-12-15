@@ -70,3 +70,15 @@ jobs:
           operation: ls
           command: -ll
           #arguments: -i build_terraform.json -d opa-test/ "data"
+      - name: cat
+        uses: ./action/
+        with:
+          operation: cat
+          command: build_terraform.json
+          #arguments: -i build_terraform.json -d opa-test/ "data"
+      - name: LS
+        uses: ./action/
+        with:
+          operation: ls
+          command: -ll opa_test
+          #arguments: -i build_terraform.json -d opa-test/ "data"
