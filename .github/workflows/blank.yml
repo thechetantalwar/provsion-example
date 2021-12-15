@@ -84,7 +84,7 @@ jobs:
       - name: Download shared data
         uses: actions/download-artifact@v2
         with:
-          name: terraform/
+          name: terraform
       - name: Terraform Apply
         uses: ./action/
         with:
