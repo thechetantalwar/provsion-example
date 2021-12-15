@@ -58,16 +58,15 @@ jobs:
           command: show
           working_directory: terraform/
           arguments: -json build.tfplan
-          output_file: ../build_terraform.json
-      - name: LS
+          output_file: /tmp/build_terraform.json
+      - name: cat
         uses: ./action/
         with:
-          operation: ls
-          command: -llh /usr/local/bin/
-          #arguments: -i build_terraform.json -d opa-test/ "data"
+          operation: cat
+          command: /tmp/build_terraform.json
       - name: Opa Check
         uses: ./action/
         with:
           operation: /usr/local/bin/opa
           command: eval
-          arguments: -d ./opacheck/ -i build_terraform.json "data.terraform"
+          arguments: -d opacheck/ -i /tmp/build_terraform.json "data.terraform"
