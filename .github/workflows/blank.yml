@@ -69,4 +69,4 @@ jobs:
         with:
           operation: opa
           command: eval
-          arguments: -d opacheck/ -i build_terraform.json "data.terraform"
+          arguments: -d opacheck/common.rego -d opacheck/ec2.rego -i build_terraform.json "data.terraform"
