@@ -59,12 +59,17 @@ jobs:
           working_directory: terraform/
           arguments: -json build.tfplan
           output_file: build_terraform.json
+      - name: LS
+        uses: ./action/
+        with:
+          operation: ls
+          command: -ll
       - name: Opa Check
         uses: ./action/
         with:
           operation: opa
           command: eval
-          arguments: --format raw --data opa/ --input terraform/build_terraform.json "data.terraform.deny"
+          arguments: --format raw --data ./opa/ --input terraform/build_terraform.json "data.terraform.deny"
   apply:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
