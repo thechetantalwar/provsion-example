@@ -62,8 +62,8 @@ jobs:
       - name: cat
         uses: ./action/
         with:
-          operation: cat
-          command: build_terraform.json
+          operation: ls
+          command: -ll opacheck/
       - name: Opa Check
         uses: ./action/
         with:
