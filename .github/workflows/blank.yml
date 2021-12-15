@@ -85,12 +85,17 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: terraform
-      - name: debug
-        run: pwd && ls -ll
+          path: terraform
+      - name: Terraform Init
+        uses: ./action/
+        with:
+          operation: terraform
+          command: init
+          working_directory: terraform/
       - name: Terraform Apply
         uses: ./action/
         with:
           operation: terraform
           command: apply
           arguments: build.tfplan
-          working_directory: ./
+          working_directory: terraform/
