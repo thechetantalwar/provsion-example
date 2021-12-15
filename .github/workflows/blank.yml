@@ -64,4 +64,4 @@ jobs:
         with:
           operation: opa
           command: eval
-          arguments: -d ./opa/ -i terraform/build_terraform.json "data"
+          arguments: -d ./opa/ -i terraform/build_terraform.json "data.terraform"
