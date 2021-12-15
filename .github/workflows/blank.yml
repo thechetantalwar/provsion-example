@@ -67,6 +67,6 @@ jobs:
       - name: Opa Check
         uses: ./action/
         with:
-          operation: /usr/local/bin/opa
+          operation: opa
           command: eval
-          arguments: -d opacheck/ -i /tmp/build_terraform.json "data.terraform"
+          arguments: -d opacheck/ -i build_terraform.json "data.terraform"
