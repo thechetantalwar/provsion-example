@@ -92,5 +92,5 @@ jobs:
         with:
           operation: terraform
           command: apply
-          arguments: build.tfplan --auto-apporve
+          arguments: build.tfplan
           working_directory: ./
