@@ -59,11 +59,6 @@ jobs:
           working_directory: terraform/
           arguments: -json build.tfplan
           output_file: build_terraform.json
-      - name: share data
-        uses: actions/upload-artifact@v2
-        with:
-          name: terraform
-          path: terraform/
   apply:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -81,21 +76,22 @@ jobs:
           path: ./action
       - name: Docker Login & Pull Image
         run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v10
-      - name: Download shared data
-        uses: actions/download-artifact@v2
-        with:
-          name: terraform
-          path: terraform
       - name: Terraform Init
         uses: ./action/
         with:
           operation: terraform
           command: init
           working_directory: terraform/
+      - name: Terraform Plan
+        uses: ./action/
+        with:
+          operation: terraform
+          command: plan
+          working_directory: terraform/
       - name: Terraform Apply
         uses: ./action/
         with:
           operation: terraform
           command: apply
-          arguments: build.tfplan
+          arguments: --auto-approve
           working_directory: terraform/
