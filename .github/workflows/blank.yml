@@ -64,4 +64,4 @@ jobs:
         with:
           operation: opa
           command: eval
-          arguments: --format pretty -d ./opa/ -i terraform/build_terraform.json "data.terraform.deny[x]" --fail-defined
+          arguments: -f pretty -d ./opa/ -i terraform/build_terraform.json "data.terraform.deny[x]" --fail-defined
