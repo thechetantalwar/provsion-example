@@ -68,6 +68,13 @@ jobs:
       - name: Opa Check
         uses: ./action/
         with:
+          operation: ls
+          command: -ll
+          #arguments: -d . -i build_terraform.json "data.terraform"
+          working_directory: opacheck/
+      - name: Opa Check
+        uses: ./action/
+        with:
           operation: opa
           command: eval
           arguments: -d . -i build_terraform.json "data.terraform"
