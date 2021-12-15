@@ -63,5 +63,10 @@ jobs:
         uses: ./action/
         with:
           operation: opa
-          command: eval
-          arguments: -i build_terraform.json -d opa-test/ "data"
+          command: version
+      - name: LS
+        uses: ./action/
+        with:
+          operation: ls
+          command: -ll
+          #arguments: -i build_terraform.json -d opa-test/ "data"
