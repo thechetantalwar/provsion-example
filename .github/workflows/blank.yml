@@ -58,7 +58,7 @@ jobs:
           command: show
           working_directory: terraform/
           arguments: -json build.tfplan
-          output_file: opa-test/build_terraform.json
+          output_file: ../build_terraform.json
       - name: Opa Check
         uses: ./action/
         with:
