@@ -64,7 +64,7 @@ jobs:
         with:
           operation: opa
           command: eval
-          arguments: -i build_terraform.json -d opacheck/ data.terraform
+          arguments: -i build_terraform.json -d opacheck/ --fail-defined data.terraform.deny[x]
   apply:
     runs-on: ubuntu-latest
     environment: 'deploy'
@@ -79,7 +79,7 @@ jobs:
           token: ${{ secrets.REPO_TOKEN }}
           path: ./action
       - name: Docker Login & Pull Image
-        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v10
+        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v11
       - name: Terraform Init
         uses: ./action/
         with:
