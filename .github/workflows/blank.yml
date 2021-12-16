@@ -58,17 +58,44 @@ jobs:
           command: show
           working_directory: terraform/
           arguments: -json build.tfplan
-          output_file: build_terraform.json
-      - name: move
-        run: mv terraform/build_terraform.json opacheck/ && ls -ll
-#      - name: Install OPA
-#        run: curl -L -o opa https://openpolicyagent.org/downloads/v0.35.0/opa_linux_amd64_static && chmod 755 opa && mv opa /usr/local/bin/
-#      - name: Opa Check
-#        run: opa eval -d opacheck/common.rego -d opacheck/ec2.rego -i build_terraform.json "data.terraform"
+          output_file: ../build_terraform.json
       - name: Opa Check
         uses: ./action/
         with:
           operation: opa
           command: eval
-          arguments: -i build_terraform.json -d common.rego -d ec2.rego data.terraform
-          working_directory: opacheck/
+          arguments: -i build_terraform.json -d opacheck/ data.terraform
+  apply:
+    runs-on: ubuntu-latest
+    environment: 'deploy'
+    needs: [plan]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Checkout Action  
+        uses: actions/checkout@v2
+        with:
+          repository: thinknyx-technologies-llp/provision-action
+          token: ${{ secrets.REPO_TOKEN }}
+          path: ./action
+      - name: Docker Login & Pull Image
+        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v10
+      - name: Terraform Init
+        uses: ./action/
+        with:
+          operation: terraform
+          command: init
+          working_directory: terraform/
+      - name: Terraform Plan
+        uses: ./action/
+        with:
+          operation: terraform
+          command: plan
+          working_directory: terraform/
+      - name: Terraform Apply
+        uses: ./action/
+        with:
+          operation: terraform
+          command: apply
+          arguments: --auto-approve
+          working_directory: terraform/
