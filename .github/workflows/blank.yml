@@ -70,5 +70,5 @@ jobs:
         with:
           operation: opa
           command: eval
-          arguments: -i build_terraform.json -d common.rego -d ec2.rego "data.terraform"
+          arguments: -i build_terraform.json -d common.rego -d ec2.rego data.terraform
           working_directory: opacheck/
