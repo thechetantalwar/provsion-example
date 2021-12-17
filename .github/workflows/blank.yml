@@ -73,9 +73,12 @@ jobs:
           operation: opa
           command: eval
           arguments: -i build_terraform.json -d opacheck/ --fail-defined data.terraform.deny[x]
-      - name: getplan
-        id: getplan
-        run: echo "::set-output name=plan_output::$(cat build_terraform.json)"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Terraform Plan
+          path: build_terraform.json
+          retention-days: 90
       - name: Send a Notification
         id: notify
         uses: ./notify
