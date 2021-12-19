@@ -69,7 +69,7 @@ jobs:
         uses: ./action/
         with:
           operation: tflint
-          command: --
+          command: --init
           working_directory: terraform/
       - name: Tflint module
         uses: ./action/
