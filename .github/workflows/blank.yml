@@ -42,6 +42,12 @@ jobs:
           repository: thinknyx-technologies-llp/notify
           token: ${{ secrets.REPO_TOKEN }}
           path: ./notify
+      - name: Checkout TerraModule  
+        uses: actions/checkout@v2
+        with:
+          repository: thinknyx-technologies-llp/terra-module1
+          token: ${{ secrets.REPO_TOKEN }}
+          path: ./terraform/module/
       - name: Docker Login & Pull Image
         run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/notify:latest
       - name: Docker Login & Pull Image
@@ -59,6 +65,21 @@ jobs:
           command: plan
           working_directory: terraform/
           arguments: -out build.tfplan
+      - name: Tflint init
+        uses: ./action/
+        with:
+          operation: tflint
+          command: --
+          working_directory: terraform/
+      - name: Tflint module
+        uses: ./action/
+        with:
+          operation: tflint
+          command: --module
+          working_directory: terraform/
+          output: ../lint_status
+      - name: statuscheck
+        run: if [ -s ../lint_status ]; then echo Lint is Fine; else exit 1; fi
       - name: Terraform Show
         uses: ./action/
         with:
