@@ -79,7 +79,9 @@ jobs:
           working_directory: terraform/
           output_file: ../lint_status
       - name: statuscheck
-        run: cat lint_status
+        run: |
+          LINT_STATUS=$(cat ./lint_status)
+          echo $LINT_STATUS
       - name: Terraform Show
         uses: ./action/
         with:
