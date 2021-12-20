@@ -80,8 +80,9 @@ jobs:
           #output_file: ../lint_status
       - name: statuscheck
         run: |
-          ls -ll
-          ls -ll terraform
+          ls -lla
+          ls -lla terraform
+          ls -lla terraform/module
       - name: Terraform Show
         uses: ./action/
         with:
