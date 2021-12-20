@@ -79,7 +79,7 @@ jobs:
           working_directory: terraform/
           output_file: ../lint_status
       - name: statuscheck
-        run: if [ -s ../lint_status ]; then echo Lint is Fine; else exit 1; fi
+        run: cat ../lint_status && if [ -s ../lint_status ]; then echo Lint is Fine; else exit 1; fi
       - name: Terraform Show
         uses: ./action/
         with:
