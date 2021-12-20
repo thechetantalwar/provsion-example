@@ -77,7 +77,7 @@ jobs:
           operation: tflint
           command: --module
           working_directory: terraform/
-          output: ../lint_status
+          output_file: ../lint_status
       - name: statuscheck
         run: if [ -s ../lint_status ]; then echo Lint is Fine; else exit 1; fi
       - name: Terraform Show
