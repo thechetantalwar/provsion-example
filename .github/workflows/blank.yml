@@ -77,7 +77,7 @@ jobs:
           operation: tflint
           command: --module
           working_directory: terraform/
-          output_file: ../lint_status
+          #output_file: ../lint_status
       - name: statuscheck
         run: |
           LINT_STATUS=$(cat ./lint_status)
