@@ -80,8 +80,8 @@ jobs:
           #output_file: ../lint_status
       - name: statuscheck
         run: |
-          LINT_STATUS=$(cat ./lint_status)
-          echo $LINT_STATUS
+          ls -ll
+          ls -ll terraform
       - name: Terraform Show
         uses: ./action/
         with:
