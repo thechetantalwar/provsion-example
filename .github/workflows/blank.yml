@@ -114,7 +114,7 @@ jobs:
         run: |
           costing=$(cat costing.html)
           echo "costing=$COSTING" >> $COSTING
-          jq -nc '{"body": "${COSTING}"}' | \
+          jq -nc '{"body": "'${COSTING}"'}' | \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
