@@ -115,7 +115,7 @@ jobs:
           echo {"body":"MESSAGE"} > output.json
           value=`head -n -3 costing.table`
           echo $value
-          message='"{"body": "'$value'"}"'
+          message='"{"body": "value"}"'
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
