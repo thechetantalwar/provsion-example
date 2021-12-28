@@ -113,7 +113,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" \
-            -d '{"body":"$value"}'
+            -d '{"body":"'"$value"'"}'
       - name: Send a Notification
         id: notify
         uses: ./notify
