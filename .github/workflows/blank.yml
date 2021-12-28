@@ -112,9 +112,8 @@ jobs:
           arguments: --path build_terraform.json --format html --out-file costing.html
       - name: Add commit comment
         run: |
-          costing=$(cat costing.html) |
-          echo "costing=$COSTING" >> $COSTING |
-          echo $COSTING |
+          costing=$(cat costing.html)
+          echo "COSTING=$costing" >> $COSTING
           message='{"body":"'${COSTING}'"}' |
           echo $message > message.json |
           curl -sL  -X POST -d @- \
