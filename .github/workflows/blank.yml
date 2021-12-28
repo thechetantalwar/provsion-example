@@ -113,6 +113,7 @@ jobs:
       - name: Add commit comment
         run: |
           echo "{"body":"MESSAGE"}" > output.json
+          cat output.json
           sed -i -e '/MESSAGE/{r costing.table' -e 'd}' output.json
           cat output.json
           curl -sL  -X POST \
