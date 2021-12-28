@@ -114,13 +114,11 @@ jobs:
         run: |
           echo {"body": "MESSAGE"} > output.json
           value=`head -n -3 costing.table`
-          echo $value
-          message="'""{"body": "value"}""'"
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" \
-            -d  $message
+            -d  '{ "body":"value1"]'
       - name: Send a Notification
         id: notify
         uses: ./notify
