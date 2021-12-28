@@ -112,7 +112,7 @@ jobs:
           arguments: --path build_terraform.json --format table --out-file costing.table
       - name: Add commit comment
         run: |
-          echo "{"body":"MESSAGE"}" > output.json
+          echo {"body":"MESSAGE"} > output.json
           value=`cat costing.table`
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
