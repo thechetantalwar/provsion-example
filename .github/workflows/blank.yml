@@ -113,17 +113,13 @@ jobs:
       - name: Costing details to Variable
         id: infracost
         run: echo "::set-output name=infracost::$(cat costing.table)"
-      - name: test
-        run: echo ${{ steps.infracost.outputs.infracost }} 
-      - name: test2
-        run: cat costing.table
       - name: Add commit comment
         run: |
-          jq -nc '{"body": "'${{ steps.infracost.outputs.infracost }}'" }'| \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" \
+            -d '{"body":"'"${{ steps.infracost.outputs.infracost }}"'"}'
       - name: Send a Notification
         id: notify
         uses: ./notify
