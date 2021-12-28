@@ -114,6 +114,7 @@ jobs:
         run: |
           echo "{"body":"MESSAGE"}" > output.json
           sed -i -e '/MESSAGE/{r costing.table' -e 'd}' output.json
+          cat output.json
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
