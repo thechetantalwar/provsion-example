@@ -113,7 +113,8 @@ jobs:
       - name: Add commit comment
         run: |
           echo {"body":"MESSAGE"} > output.json
-          value=`cat costing.table`
+          cat costing
+          value=`head -n -3 costing.table`
           message='{\"body\": \"'$value'\"}'
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
