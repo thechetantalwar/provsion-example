@@ -79,11 +79,6 @@ jobs:
           command: --module
           working_directory: terraform/
           #output_file: ../lint_status
-      - name: statuscheck
-        run: |
-          ls -lla
-          ls -lla terraform
-          ls -lla terraform/module
       - name: Terraform Show
         uses: ./action/
         with:
@@ -118,7 +113,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" \
-            -d '{"body":"value1"}'
+            -d '{"body":"$value"}'
       - name: Send a Notification
         id: notify
         uses: ./notify
