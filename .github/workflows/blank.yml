@@ -113,8 +113,8 @@ jobs:
       - name: Add commit comment
         run: |
           echo "{"body":"MESSAGE"}" > output.json
-          cat output.json
-          sed "s/^.*MESSAGE.*$/$(cat costing.table)/" output.json
+          value=`cat costing.table`
+          sed -i "s/MESSAGE/$value/g" output.json
           cat output.json
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
