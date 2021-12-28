@@ -13,6 +13,7 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
+  INFRACOST_API_KEY: ${{ secrets.INFRA_COST_KEY }]
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -51,7 +52,7 @@ jobs:
       - name: Docker Login & Pull Image
         run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/notify:latest
       - name: Docker Login & Pull Image
-        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v11
+        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v12
       - name: Terraform Init
         uses: ./action/
         with:
@@ -103,6 +104,20 @@ jobs:
           name: Terraform Plan
           path: build_terraform.json
           retention-days: 90
+      - name: Infracost
+        uses: ./action/
+        with:
+          operation: infracost
+          command: breakdown
+          arguments: --path buil_terraform.json --format html --out-file costing.html
+      - name: Add commit comment
+        run: |
+          echo "costing=$(cat ./costing.html)" >> $COSTING
+          jq -nc '{"body": "$COSTING"}' | \
+          curl -sL  -X POST -d @- \
+            -H "Content-Type: application/json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
       - name: Send a Notification
         id: notify
         uses: ./notify
