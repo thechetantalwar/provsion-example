@@ -112,11 +112,11 @@ jobs:
           arguments: --path build_terraform.json --format html --out-file costing.html
       - name: Add commit comment
         run: |
-          costing=$(cat costing.html)
-          echo "costing=$COSTING" >> $COSTING
-          echo $COSTING
-          message='{"body":"'${COSTING}'"}'
-          echo $message > message.json
+          costing=$(cat costing.html) |
+          echo "costing=$COSTING" >> $COSTING |
+          echo $COSTING |
+          message='{"body":"'${COSTING}'"}' |
+          echo $message > message.json |
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
