@@ -109,14 +109,14 @@ jobs:
         with:
           operation: infracost
           command: breakdown
-          arguments: --path build_terraform.json --format html --out-file costing.html
+          arguments: --path build_terraform.json --format table --out-file costing.table
       - name: Costing details to Variable
         id: infracost
-        run: echo "::set-output name=infracost::$(cat costing.html)"
+        run: echo "::set-output name=infracost::$(cat costing.table)"
       - name: Add commit comment
         run: |
-          echo ${{ steps.infracost.outputs.infracost }} |
-          jq -nc '{"body": "Test Message' | \
+          echo ${{ steps.infracost.outputs.infracost }} 
+          jq -nc '{"body": "${{ steps.infracost.outputs.infracost }}" }'| \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
