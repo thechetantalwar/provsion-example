@@ -110,17 +110,17 @@ jobs:
           operation: infracost
           command: breakdown
           arguments: --path build_terraform.json --format table --out-file costing.table
+      - name: test
+        run: echo ${{ steps.infracost.outputs.infracost }} 
       - name: Costing details to Variable
         id: infracost
         run: echo "::set-output name=infracost::$(cat costing.table)"
       - name: Add commit comment
         run: |
-          echo ${{ steps.infracost.outputs.infracost }} 
           jq -nc '{"body": "Testing" }'| \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d "@message.json" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments"
       - name: Send a Notification
         id: notify
