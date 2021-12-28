@@ -116,7 +116,7 @@ jobs:
       - name: Add commit comment
         run: |
           echo ${{ steps.infracost.outputs.infracost }} 
-          jq -nc '{"body": "${{ steps.infracost.outputs.infracost }}" }'| \
+          jq -nc '{"body": "Testing" }'| \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
