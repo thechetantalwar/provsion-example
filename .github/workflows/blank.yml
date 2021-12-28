@@ -114,7 +114,7 @@ jobs:
         run: |
           echo "{"body":"MESSAGE"}" > output.json
           cat output.json
-          sed -i -e '/MESSAGE/{r costing.table' -e 'd}' output.json
+          sed "s/^.*MESSAGE.*$/$(cat costing.table)/" output.json
           cat output.json
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
