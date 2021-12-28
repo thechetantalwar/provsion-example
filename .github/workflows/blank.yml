@@ -112,7 +112,7 @@ jobs:
           arguments: --path build_terraform.json --format table --out-file costing.table
       - name: Add commit comment
         run: |
-          echo {"body":"MESSAGE"} > output.json
+          echo {"body": "MESSAGE"} > output.json
           value=`head -n -3 costing.table`
           echo $value
           message="{"body": "value"}"
@@ -120,7 +120,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" \
-            -d $message
+            -d "@output.json"
       - name: Send a Notification
         id: notify
         uses: ./notify
