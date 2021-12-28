@@ -115,7 +115,8 @@ jobs:
         run: echo "::set-output name=infracost::$(cat costing.html)"
       - name: Add commit comment
         run: |
-          jq -nc '{"body": "${{ steps.infracost.outputs.infracost }}"}' | \
+          echo ${{ steps.infracost.outputs.infracost }} |
+          jq -nc '{"body": "Test Message' | \
           curl -sL  -X POST -d @- \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
