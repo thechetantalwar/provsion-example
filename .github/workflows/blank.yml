@@ -115,6 +115,8 @@ jobs:
         run: echo "::set-output name=infracost::$(cat costing.table)"
       - name: test
         run: echo ${{ steps.infracost.outputs.infracost }} 
+      - name: test2
+        run: cat costing.table
       - name: Add commit comment
         run: |
           jq -nc '{"body": "'${{ steps.infracost.outputs.infracost }}'" }'| \
