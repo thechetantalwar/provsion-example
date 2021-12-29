@@ -104,13 +104,19 @@ jobs:
         with:
           operation: infracost
           command: breakdown
-          arguments: --path build_terraform.json --format html --out-file costing.table
+          arguments: --path build_terraform.json --format json --out-file costing.json
+      - name: Upload Infracost
+        uses: actions/upload-artifact@v2
+        with:
+          name: Infracost Upload
+          path: costing.json
+          retention-days: 90
       - name: Add commit comment
         run: |
-          sed 's/\"/\\"/g' costing.table > costing.html
-          value=`cat costing.html`
+          value=`jq '[.projects[].diff.totalMonthlyCost | select (.!=null) | tonumber] | add' costing.json`
+          message="The monthly cost for current set of resources is $value. You can get more deails at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
           JSON_STRING=$( jq -n \
-                  --arg msg "$value" \
+                  --arg msg "$message" \
                   '{body: $msg}' )
           echo $JSON_STRING
           curl -sL  -X POST \
@@ -123,7 +129,7 @@ jobs:
         uses: ./notify
         with:
           teams_webhook_url: ${{ secrets.TEAMS_HOOK }}
-          message: "Github Action Completed for ${{ github.repository	 }} with Build Number ${{ github.run_number }} and the plan can be found at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
+          message: "Github Action Completed for ${{ github.repository	 }} with Build Number ${{ github.run_number }} and the plan and costing details can be found at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
   apply:
     runs-on: ubuntu-latest
     environment: 'deploy'
