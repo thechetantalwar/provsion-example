@@ -111,11 +111,12 @@ jobs:
           JSON_STRING=$( jq -n \
                   --arg msg "$value" \
                   '{body: $msg}' )
+          echo $JSON_STRING
           curl -sL  -X POST \
             -H "Content-Type: application/json" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" \
-            -d $JSON_STRING
+            -d "$JSON_STRING"
       - name: Send a Notification
         id: notify
         uses: ./notify
