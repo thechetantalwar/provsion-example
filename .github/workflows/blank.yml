@@ -114,7 +114,7 @@ jobs:
       - name: Add commit comment
         run: |
           value=`jq '[.projects[].diff.totalMonthlyCost | select (.!=null) | tonumber] | add' costing.json`
-          message="The monthly cost for current set of resources is $value. You can get more deails at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
+          message="The monthly cost for current set of resources is '$'$value.\nYou can get more deails at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
           JSON_STRING=$( jq -n \
                   --arg msg "$message" \
                   '{body: $msg}' )
