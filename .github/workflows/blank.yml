@@ -99,24 +99,24 @@ jobs:
           name: Terraform Plan
           path: build_terraform.json
           retention-days: 90
-      - name: Infracost
+      - name: Infracost Calculation
         uses: ./action/
         with:
           operation: infracost
           command: breakdown
           arguments: --path build_terraform.json --format json --out-file costing.json
-      - name: Upload Infracost
-        uses: actions/upload-artifact@v2
+      - name: Infracost Conversion to MD
+        uses: ./action/
         with:
-          name: Infracost Upload
-          path: costing.json
-          retention-days: 90
+          operation: infracost
+          command: output
+          arguments:  --format github-comment --path costing.json --out-file costing.md
       - name: Add commit comment
         run: |
-          value=`jq '[.projects[].diff.totalMonthlyCost | select (.!=null) | tonumber] | add' costing.json`
-          message="The monthly cost for current set of resources is USD $value.'\n'You can get more deails at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
+          value=`cat costing.md`
+          message="The monthly cost for current set of resources is You can get more deails at https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}"
           JSON_STRING=$( jq -n \
-                  --arg msg "$message" \
+                  --arg msg "$value" \
                   '{body: $msg}' )
           echo $JSON_STRING
           curl -sL  -X POST \
