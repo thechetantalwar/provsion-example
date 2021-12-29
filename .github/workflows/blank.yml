@@ -104,10 +104,11 @@ jobs:
         with:
           operation: infracost
           command: breakdown
-          arguments: --path build_terraform.json --format table --out-file costing.table
+          arguments: --path build_terraform.json --format html --out-file costing.table
       - name: Add commit comment
         run: |
-          value=`head -n -3 costing.table`
+          sed 's/\"/\\"/g' costing.table > costing.html
+          value=`cat costing.html`
           JSON_STRING=$( jq -n \
                   --arg msg "$value" \
                   '{body: $msg}' )
