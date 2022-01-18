@@ -29,30 +29,30 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: thinknyx-technologies-llp/provision-action
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./action
       - name: Checkout Opa  
         uses: actions/checkout@v2
         with:
           repository: darshan-thinknyx/opa
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./opacheck
       - name: Checkout Action  
         uses: actions/checkout@v2
         with:
           repository: thinknyx-technologies-llp/notify
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./notify
       - name: Checkout TerraModule  
         uses: actions/checkout@v2
         with:
           repository: thinknyx-technologies-llp/terra-module1
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./terraform/module/
       - name: Docker Login & Pull Image
-        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/notify:latest
+        run: echo  ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/notify:latest
       - name: Docker Login & Pull Image
-        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v12
+        run: echo  ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v12
       - name: Terraform Init
         uses: ./action/
         with:
@@ -141,10 +141,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: thinknyx-technologies-llp/provision-action
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./action
       - name: Docker Login & Pull Image
-        run: echo  ${{ secrets.REPO_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v11
+        run: echo  ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && docker pull ghcr.io/thinknyx-technologies-llp/provision-action:v11
       - name: Terraform Init
         uses: ./action/
         with:
